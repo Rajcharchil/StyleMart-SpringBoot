@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Success - StyleMart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .success-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .success-message {
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .order-details {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .order-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-info {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .tracking-info {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #e3f2fd;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .tracking-title {
+            font-weight: 600;
+            color: #1976d2;
+            margin-bottom: 0.5rem;
+        }
+
+        .tracking-text {
+            color: #424242;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">✅</div>
+        <h1 class="success-title">Order Placed Successfully!</h1>
+        <p class="success-message">
+            Thank you for your purchase! Your order has been confirmed and is being processed.
+        </p>
+        
+        <div class="order-details" id="orderDetails">
+            <div class="order-number">Loading order details...</div>
+        </div>
+
+        <div class="tracking-info">
+            <div class="tracking-title">📱 Order Tracking</div>
+            <div class="tracking-text">
+                You will receive SMS and email updates about your order status. 
+                You can also track your order in the "My Orders" section.
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/orders" class="btn btn-primary">View My Orders</a>
+            <a href="/products" class="btn btn-secondary">Continue Shopping</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('orderId');
+            
+            if (orderId) {
+                loadOrderDetails(orderId);
+            } else {
+                document.getElementById('orderDetails').innerHTML = `
+                    <div class="order-number">Order Confirmed</div>
+                    <div class="order-info">Your order has been placed successfully!</div>
+                `;
+            }
+        });
+
+        async function loadOrderDetails(orderId) {
+            try {
+                const response = await fetch(`/orders/${orderId}`);
+                if (response.ok) {
+                    const order = await response.json();
+                    displayOrderDetails(order);
+                } else {
+                    document.getElementById('orderDetails').innerHTML = `
+                        <div class="order-number">Order #${orderId}</div>
+                        <div class="order-info">Your order has been placed successfully!</div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading order details:', error);
+                document.getElementById('orderDetails').innerHTML = `
+                    <div class="order-number">Order Confirmed</div>
+                    <div class="order-info">Your order has been placed successfully!</div>
+                `;
+            }
+        }
+
+        function displayOrderDetails(order) {
+            document.getElementById('orderDetails').innerHTML = `
+                <div class="order-number">Order #${order.orderNumber}</div>
+                <div class="order-info">
+                    Total Amount: ₹${order.totalAmount}<br>
+                    Payment Method: ${order.paymentMethod.toUpperCase()}<br>
+                    Estimated Delivery: 3-5 business days
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - StyleMart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .orders-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .order-header {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .order-info {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .order-detail {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .order-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 0.25rem;
+        }
+
+        .order-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .order-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-shipped {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-delivered {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .order-items {
+            padding: 1.5rem;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 1rem;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .item-variant {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .order-total {
+            text-align: right;
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .no-orders {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .no-orders-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .continue-shopping {
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .order-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .order-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .item-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">StyleMart</div>
+            <nav class="nav-links">
+                <a href="/">Home</a>
+                <a href="/products-page">Products</a>
+                <a href="/cart-page">Cart</a>
+                <a href="/orders-page">My Orders</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="orders-header">
+            <h1>My Orders</h1>
+            <p>Track and manage your orders</p>
+        </div>
+
+        <div id="ordersContainer">
+            <div class="loading">Loading your orders...</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrders();
+        });
+
+        async function loadOrders() {
+            try {
+                const response = await fetch('/orders');
+                if (response.ok) {
+                    const orders = await response.json();
+                    displayOrders(orders);
+                } else {
+                    showNoOrders();
+                }
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                showNoOrders();
+            }
+        }
+
+        function displayOrders(orders) {
+            if (orders.length === 0) {
+                showNoOrders();
+                return;
+            }
+
+            const ordersHTML = orders.map(order => `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <div class="order-detail">
+                                <span class="order-label">Order Number</span>
+                                <span class="order-value">${order.orderNumber}</span>
+                            </div>
+                            <div class="order-detail">
+                                <span class="order-label">Order Date</span>
+                                <span class="order-value">${formatDate(order.createdAt)}</span>
+                            </div>
+                            <div class="order-detail">
+                                <span class="order-label">Total Amount</span>
+                                <span class="order-value">₹${order.totalAmount}</span>
+                            </div>
+                        </div>
+                        <div class="order-status status-${order.status.toLowerCase()}">
+                            ${order.status}
+                        </div>
+                    </div>
+                    <div class="order-items">
+                        ${order.orderItems.map(item => `
+                            <div class="order-item">
+                                <img src="${item.productImage || 'https://via.placeholder.com/80'}" 
+                                     alt="${item.productName}" class="item-image">
+                                <div class="item-details">
+                                    <div class="item-name">${item.productName}</div>
+                                    <div class="item-variant">Qty: ${item.quantity} | Size: ${item.size || 'N/A'} | Color: ${item.color || 'N/A'}</div>
+                                    <div class="item-price">₹${item.price} each</div>
+                                </div>
+                                <div class="item-total">
+                                    <strong>₹${item.subtotal}</strong>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="order-total">
+                        Total: ₹${order.totalAmount}
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('ordersContainer').innerHTML = ordersHTML;
+        }
+
+        function showNoOrders() {
+            document.getElementById('ordersContainer').innerHTML = `
+                <div class="no-orders">
+                    <div class="no-orders-icon">📦</div>
+                    <h2>No orders yet</h2>
+                    <p>Start shopping to see your orders here!</p>
+                    <a href="/products" class="continue-shopping">Start Shopping</a>
+                </div>
+            `;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+    </script>
+</body>
+</html>

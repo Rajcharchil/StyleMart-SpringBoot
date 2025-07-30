@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - StyleMart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .checkout-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .checkout-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .checkout-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .address-card {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .address-card:hover {
+            border-color: #667eea;
+        }
+
+        .address-card.selected {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+        }
+
+        .address-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .address-details {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .payment-option:hover {
+            border-color: #667eea;
+        }
+
+        .payment-option.selected {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+        }
+
+        .payment-radio {
+            margin-right: 1rem;
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .payment-desc {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .order-summary {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 1rem;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-details {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid #e9ecef;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .place-order-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .place-order-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .add-address-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-content {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">StyleMart</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="checkout-header">
+            <h1>Checkout</h1>
+            <p>Complete your order</p>
+        </div>
+
+        <div class="checkout-content">
+            <div class="checkout-form">
+                <div class="section-title">Shipping Address</div>
+                <button class="add-address-btn" onclick="showAddAddressForm()">+ Add New Address</button>
+                <div id="addressList">
+                    <p>Loading addresses...</p>
+                </div>
+
+                <div id="addAddressForm" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" id="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Address Line 1</label>
+                        <input type="text" class="form-input" id="addressLine1" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Address Line 2 (Optional)</label>
+                        <input type="text" class="form-input" id="addressLine2">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">City</label>
+                            <input type="text" class="form-input" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">State</label>
+                            <input type="text" class="form-input" id="state" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Pincode</label>
+                            <input type="text" class="form-input" id="pincode" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-input" id="phoneNumber" required>
+                        </div>
+                    </div>
+                    <button type="button" onclick="saveAddress()" class="add-address-btn">Save Address</button>
+                    <button type="button" onclick="hideAddAddressForm()" style="background: #6c757d; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; margin-left: 1rem;">Cancel</button>
+                </div>
+
+                <div class="section-title" style="margin-top: 2rem;">Payment Method</div>
+                <div class="payment-methods">
+                    <div class="payment-option selected" onclick="selectPayment('cod')">
+                        <input type="radio" name="payment" value="cod" class="payment-radio" checked>
+                        <div class="payment-info">
+                            <div class="payment-name">Cash on Delivery</div>
+                            <div class="payment-desc">Pay when your order arrives</div>
+                        </div>
+                    </div>
+                    <div class="payment-option" onclick="selectPayment('card')">
+                        <input type="radio" name="payment" value="card" class="payment-radio">
+                        <div class="payment-info">
+                            <div class="payment-name">Credit/Debit Card</div>
+                            <div class="payment-desc">Pay securely with your card</div>
+                        </div>
+                    </div>
+                    <div class="payment-option" onclick="selectPayment('upi')">
+                        <input type="radio" name="payment" value="upi" class="payment-radio">
+                        <div class="payment-info">
+                            <div class="payment-name">UPI Payment</div>
+                            <div class="payment-desc">Pay using UPI apps</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-summary">
+                <h3 class="section-title">Order Summary</h3>
+                <div id="orderItems">
+                    <p>Loading order items...</p>
+                </div>
+                <div id="orderTotal">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">₹0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>₹99</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="total">₹99</span>
+                    </div>
+                </div>
+                <button class="place-order-btn" onclick="placeOrder()" id="placeOrderBtn" disabled>
+                    Place Order
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Cart Logic using localStorage for checkout ---
+        let cartItems = [];
+        let addresses = [];
+        let selectedAddressId = null;
+        let selectedPayment = 'cod';
+        let cartTotal = 0;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCart();
+            loadAddresses();
+        });
+
+        function loadCart() {
+            cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+                    displayOrderSummary();
+        }
+
+        async function loadAddresses() {
+            try {
+                const response = await fetch('/addresses');
+                if (response.ok) {
+                    addresses = await response.json();
+                    displayAddresses();
+                } else {
+                    document.getElementById('addressList').innerHTML = '<p>No addresses found. Please add a new address.</p>';
+                }
+            } catch (error) {
+                console.error('Error loading addresses:', error);
+                document.getElementById('addressList').innerHTML = '<p>No addresses found. Please add a new address.</p>';
+            }
+        }
+
+        function displayOrderSummary() {
+            if (cartItems.length === 0) {
+                document.getElementById('orderItems').innerHTML = '<p>No items in cart</p>';
+                document.getElementById('subtotal').textContent = '₹0';
+                document.getElementById('total').textContent = '₹99';
+                return;
+            }
+
+            cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+            const itemsHTML = cartItems.map(item => `
+                <div class="summary-item">
+                    <img src="${item.imageUrl}" alt="${item.productName}" class="item-image">
+                    <div class="item-info">
+                        <div class="item-name">${item.productName}</div>
+                        <div class="item-details">Qty: ${item.quantity}</div>
+                    </div>
+                    <div class="item-price">₹${item.price * item.quantity}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('orderItems').innerHTML = itemsHTML;
+            document.getElementById('subtotal').textContent = `₹${cartTotal}`;
+            document.getElementById('total').textContent = `₹${cartTotal + 99}`;
+        }
+
+        function displayAddresses() {
+            if (addresses.length === 0) {
+                document.getElementById('addressList').innerHTML = '<p>No addresses found. Please add a new address.</p>';
+                return;
+            }
+
+            const addressHTML = addresses.map(address => `
+                <div class="address-card ${address.isDefault ? 'selected' : ''}" onclick="selectAddress(${address.id})">
+                    <div class="address-name">${address.fullName}</div>
+                    <div class="address-details">
+                        ${address.addressLine1}, ${address.addressLine2 ? address.addressLine2 + ', ' : ''}
+                        ${address.city}, ${address.state} - ${address.pincode}<br>
+                        Phone: ${address.phoneNumber}
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('addressList').innerHTML = addressHTML;
+
+            // Select default address if available
+            const defaultAddress = addresses.find(addr => addr.isDefault);
+            if (defaultAddress) {
+                selectedAddressId = defaultAddress.id;
+                updatePlaceOrderButton();
+            }
+        }
+
+        function selectAddress(addressId) {
+            selectedAddressId = addressId;
+            
+            // Update UI
+            document.querySelectorAll('.address-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            updatePlaceOrderButton();
+        }
+
+        function selectPayment(method) {
+            selectedPayment = method;
+            
+            // Update UI
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Update radio button
+            document.querySelector(`input[value="${method}"]`).checked = true;
+        }
+
+        function updatePlaceOrderButton() {
+            const btn = document.getElementById('placeOrderBtn');
+            if (selectedAddressId && cartItems.length > 0) {
+                btn.disabled = false;
+            } else {
+                btn.disabled = true;
+            }
+        }
+
+        function showAddAddressForm() {
+            document.getElementById('addAddressForm').style.display = 'block';
+        }
+
+        function hideAddAddressForm() {
+            document.getElementById('addAddressForm').style.display = 'none';
+            // Clear form
+            document.getElementById('addAddressForm').querySelectorAll('input').forEach(input => {
+                input.value = '';
+            });
+        }
+
+        async function saveAddress() {
+            const addressData = {
+                fullName: document.getElementById('fullName').value,
+                addressLine1: document.getElementById('addressLine1').value,
+                addressLine2: document.getElementById('addressLine2').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                pincode: document.getElementById('pincode').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                isDefault: addresses.length === 0 // First address is default
+            };
+
+            // Validate required fields
+            if (!addressData.fullName || !addressData.addressLine1 || !addressData.city || 
+                !addressData.state || !addressData.pincode || !addressData.phoneNumber) {
+                alert('Please fill all required fields');
+                return;
+            }
+
+            try {
+                const response = await fetch('/addresses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(addressData)
+                });
+
+                if (response.ok) {
+                    hideAddAddressForm();
+                    loadAddresses(); // Reload addresses
+                } else {
+                    const message = await response.text();
+                    alert(message);
+                }
+            } catch (error) {
+                console.error('Error saving address:', error);
+                alert('Error saving address');
+            }
+        }
+
+        async function placeOrder() {
+            if (!selectedAddressId) {
+                alert('Please select a shipping address');
+                return;
+            }
+
+            if (cartItems.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+
+            // Here you can send cartItems to backend if needed
+            // For now, just show a success message and clear cart
+            alert('Order placed successfully!');
+            localStorage.removeItem('cart');
+            window.location.href = '/order-success';
+        }
+        // --- End Cart Logic ---
+    </script>
+</body>
+</html>
