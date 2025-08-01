@@ -23,43 +23,7 @@
 body{font-family:var(--font-base);background:var(--clr-bg);color:var(--clr-dark);line-height:1.45;scroll-behavior:smooth;}
 
 /* =============== 1. HEADER =============== */
-header{background:var(--clr-light);position:sticky;top:0;z-index:999;box-shadow:0 1px 4px rgba(0,0,0,.08);}
-.nav-wrapper{display:flex;align-items:center;justify-content:space-between;max-width:1380px;margin:auto;padding:1rem 2rem;}
-.logo{font-size:.9rem;font-weight:700;color:var(--clr-primary);}
-nav ul{display:flex;gap:2rem;list-style:none;}
-nav a{color:var(--clr-dark);text-decoration:none;position:relative;font-weight:600;transition:color var(--transition-fast);}
-nav a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--clr-primary);transition:width var(--transition-fast);}
-nav a:hover{color:var(--clr-primary);} nav a:hover::after{width:100%;}
-.search-box{flex:1;margin-inline:2rem;position:relative;}
-.search-box input{width:100%;padding:.65rem 1rem .65rem 3rem;border:1px solid #ddd;border-radius:2rem;font-size:.95rem;}
-.search-box svg{position:absolute;left:1rem;top:50%;transform:translateY(-50%);fill:var(--clr-muted);}
-.header-icons {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-
-  justify-content: center;
-}
-
-.icon-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 0.9rem;
-  color: #333;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.icon-block img {
-  width: 30px;
-  height: 30px;
-  margin-bottom: 5px;
-}
-
-.icon-block:hover {
-  transform: scale(1.1);
-}
+/* Header styles are now in unified header component */
 
 
 
@@ -715,44 +679,8 @@ footer {
 </head>
 
 <body>
-<!-- ===== HEADER ===== -->
-<header>
-  <div class="nav-wrapper myntra-header">
-    <div class="logo-area">
-      <img src="assest/logo.jpg" alt="StyleMart Logo" class="myntra-logo">
-    </div>
-    <nav class="main-nav">
-      <ul>
-        <li><a href="#">MEN</a></li>
-        <li><a href="#">WOMEN</a></li>
-        <li><a href="#">KIDS</a></li>
-        <li><a href="#">HOME</a></li>
-        <li><a href="#">BEAUTY</a></li>
-        <li><a href="#">GENZ</a></li>
-        <li><a href="#">STUDIO <span class="new-badge">NEW</span></a></li>
-      </ul>
-    </nav>
-    <div class="search-box" role="search">
-      <input type="search" placeholder="Search for products, brands and more" aria-label="Search products"/>
-      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21 15 15m-6 2a7 7 0 1 1 0-14 7 7 0 0 1 0 14z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-    <div class="header-icons">
-      <div class="icon-block">
-        <img src="assest/user.png" alt="Profile" />
-        
-      </div>
-      <div class="icon-block">
-        <img src="assest/heart.png" alt="Wishlist" />
-        
-      </div>
-      <div class="icon-block">
-        <img src="assest/shopping-bag.png" alt="Bag" />
-
-      </div>
-    </div>
-    
-  </div>
-</header>
+<!-- Unified Header will be loaded automatically -->
+<script src="/js/header-loader.js"></script>
 
 <!-- ===== HERO ===== -->
 <section class="hero">

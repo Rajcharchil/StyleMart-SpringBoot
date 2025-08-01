@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title - StyleMart</title>
+    
+    <!-- Include the header loader script -->
+    <script src="/js/header-loader.js"></script>
+    
+    <!-- Your page-specific styles -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .page-content {
+            max-width: 1280px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- The unified header will be automatically loaded here -->
+    
+    <div class="page-content">
+        <h1 class="page-title">Your Page Content</h1>
+        <p>This is an example of how to use the unified header in any page.</p>
+        
+        <!-- Your page content goes here -->
+        <div>
+            <h2>Features Available:</h2>
+            <ul>
+                <li>✅ Consistent header design across all pages</li>
+                <li>✅ Working cart functionality with count</li>
+                <li>✅ Search functionality</li>
+                <li>✅ Responsive design</li>
+                <li>✅ Navigation to all sections</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            <h3>How to use the unified header:</h3>
+            <ol>
+                <li>Include the header loader script: <code>&lt;script src="/js/header-loader.js"&gt;&lt;/script&gt;</code></li>
+                <li>The header will automatically load when the page loads</li>
+                <li>Use <code>window.headerLoader.updateCartCount()</code> to update cart count</li>
+                <li>Use <code>window.headerLoader.getCart()</code> to get cart data</li>
+                <li>Use <code>window.headerLoader.saveCart(cart)</code> to save cart data</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Your page-specific JavaScript
+        
+        // Example: Add to cart functionality
+        function addToCart(productId, productName, price) {
+            if (window.headerLoader) {
+                const cart = window.headerLoader.getCart();
+                let existing = cart.find(item => item.productId === productId);
+                
+                if (existing) {
+                    existing.quantity += 1;
+                } else {
+                    cart.push({ 
+                        productId, 
+                        productName, 
+                        price, 
+                        quantity: 1 
+                    });
+                }
+                
+                window.headerLoader.saveCart(cart);
+                window.headerLoader.updateCartCount();
+                alert(`${productName} added to cart!`);
+            }
+        }
+        
+        // Listen for header loaded event
+        document.addEventListener('headerLoaded', function() {
+            console.log('Unified header loaded successfully!');
+            // Your initialization code here
+        });
+        
+        // Example: Update cart count when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait a bit for header to load, then update cart count
+            setTimeout(function() {
+                if (window.headerLoader) {
+                    window.headerLoader.updateCartCount();
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html> 

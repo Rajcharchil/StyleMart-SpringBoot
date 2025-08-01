@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Orders - StyleMart</title>
+    <script src="/js/header-loader.js"></script>
     <style>
         * {
             margin: 0;
@@ -17,44 +18,7 @@
             line-height: 1.6;
         }
 
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .nav-links a:hover {
-            background-color: rgba(255,255,255,0.2);
-        }
+        /* Header styles are now in unified header component */
 
         .container {
             max-width: 1200px;
@@ -252,18 +216,7 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">StyleMart</div>
-            <nav class="nav-links">
-                <a href="/">Home</a>
-                <a href="/products-page">Products</a>
-                <a href="/cart-page">Cart</a>
-                <a href="/orders-page">My Orders</a>
-                <a href="/logout">Logout</a>
-            </nav>
-        </div>
-    </header>
+    <!-- Unified Header will be loaded automatically -->
 
     <div class="container">
         <div class="orders-header">

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - StyleMart</title>
+    <script src="/js/header-loader.js"></script>
     <style>
         * {
             margin: 0;
@@ -17,26 +18,7 @@
             line-height: 1.6;
         }
 
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
+        /* Header styles are now in unified header component */
 
         .container {
             max-width: 1200px;
@@ -283,11 +265,7 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">StyleMart</div>
-        </div>
-    </header>
+    <!-- Unified Header will be loaded automatically -->
 
     <div class="container">
         <div class="checkout-header">
@@ -579,9 +557,39 @@
             // Here you can send cartItems to backend if needed
             // For now, just show a success message and clear cart
             alert('Order placed successfully!');
+            
+            // Clear cart from both unified header and localStorage
+            if (window.headerLoader) {
+                window.headerLoader.saveCart([]);
+                window.headerLoader.updateCartCount();
+            }
             localStorage.removeItem('cart');
-            window.location.href = '/order-success';
+            
+            window.location.href = '/order-success.html';
         }
+        // Load cart data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for header to load, then load cart data
+            setTimeout(function() {
+                loadCartData();
+                updatePlaceOrderButton();
+            }, 500);
+        });
+
+        function loadCartData() {
+            // Get cart data from unified header or localStorage
+            let cart = [];
+            if (window.headerLoader) {
+                cart = window.headerLoader.getCart();
+            } else {
+                cart = JSON.parse(localStorage.getItem('cart')) || [];
+            }
+            
+            cartItems = cart;
+            displayOrderItems();
+            updateOrderTotal();
+        }
+
         // --- End Cart Logic ---
     </script>
 </body>

@@ -4,7 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products - StyleMart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
+        :root {
+            --primary-grad: linear-gradient(135deg, #833e29 0%, #570f0f 100%);
+            --primary-color: #ea9b67;
+            --secondary-color: #e74c3c;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --border-color: #e9ecef;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,131 +25,75 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+            background-color: var(--bg-light);
             line-height: 1.6;
         }
 
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .nav-links a:hover {
-            background-color: rgba(255,255,255,0.2);
-        }
-
-        .cart-icon {
-            position: relative;
-            background: rgba(255,255,255,0.2);
-            padding: 0.5rem;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff4757;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             padding: 2rem;
         }
 
+        /* ===== HEADER ===== */
+        /* Header styles are now in unified header component */
+
+        /* ===== FILTERS ===== */
         .filters {
-            background: white;
+            background: var(--bg-white);
             padding: 1.5rem;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             margin-bottom: 2rem;
         }
-
-        .filter-row {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 300px;
+        .filter-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .search-box, .category-select {
             padding: 0.75rem;
-            border: 2px solid #e9ecef;
+            border: 2px solid var(--border-color);
             border-radius: 8px;
             font-size: 1rem;
         }
-
-        .search-box:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .category-select {
-            padding: 0.75rem;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 1rem;
-            background: white;
-        }
-
+        .search-box { flex: 1; min-width: 300px; }
+        .search-box:focus, .category-select:focus { outline: none; border-color: var(--primary-color); }
+        .category-select { background: var(--bg-white); }
         .search-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-grad);
             color: white;
             border: none;
             padding: 0.75rem 1.5rem;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
-        .search-btn:hover {
-            transform: translateY(-2px);
+        .search-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        
+        /* ===== PRODUCT SECTIONS ===== */
+        .product-category-section {
+            margin-bottom: 3.5rem;
         }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        .view-all-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .view-all-link:hover { color: var(--text-dark); }
 
+        /* ===== ADVANCED PRODUCT GRID & CARDS ===== */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -145,131 +101,138 @@
         }
 
         .product-card {
-            background: white;
+            background: var(--bg-white);
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
+            position: relative;
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+        
+        .product-image-container {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
         }
 
         .product-image {
             width: 100%;
-            height: 250px;
+            height: 100%;
             object-fit: cover;
-            background: #f8f9fa;
+            background: var(--bg-light);
+            transition: transform 0.4s ease-out;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.08);
         }
 
-        .product-info {
-            padding: 1.5rem;
-        }
-
-        .product-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #2c3e50;
-        }
-
-        .product-price {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #e74c3c;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-rating {
+        .wishlist-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.2s ease;
+            color: #94969f;
+            z-index: 10;
         }
 
-        .stars {
-            color: #f39c12;
+        .wishlist-btn:hover {
+            background: #ff3f6c;
+            color: white;
+            transform: scale(1.1);
         }
 
-        .rating-text {
-            color: #7f8c8d;
-            font-size: 0.9rem;
+        .wishlist-btn.active {
+            background: #ff3f6c;
+            color: white;
+        }
+
+        .product-info { padding: 1.5rem; text-align: left; }
+        .product-name { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-dark); }
+        .product-price { font-size: 1.3rem; font-weight: bold; color: var(--secondary-color); margin-bottom: 0.5rem; }
+        .product-rating { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .stars { color: #f39c12; }
+        .rating-text { color: var(--text-light); font-size: 0.9rem; }
+        
+        /* Card Overlay and Add to Cart Button */
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 100%;
+            pointer-events: none; /* Allows click-through to card */
+        }
+
+        .product-card:hover .card-overlay {
+            opacity: 1;
         }
 
         .add-to-cart-btn {
             width: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--bg-white);
+            color: var(--primary-color);
             border: none;
             padding: 0.75rem;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 600;
-            transition: transform 0.2s;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.4s, opacity 0.4s;
+            pointer-events: all; /* Makes button clickable */
+        }
+        
+        .product-card:hover .add-to-cart-btn {
+            transform: translateY(0);
+            opacity: 1;
         }
 
-        .add-to-cart-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            color: #7f8c8d;
-        }
-
-        .no-products {
-            text-align: center;
-            padding: 3rem;
-            color: #7f8c8d;
-        }
+        .loading, .no-products { text-align: center; padding: 3rem; color: var(--text-light); font-size: 1.2rem; }
 
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .filter-row {
-                flex-direction: column;
-            }
-
-            .search-box {
-                min-width: 100%;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 1rem;
-            }
+            .container { padding: 1rem; }
+            .nav-container { flex-direction: column; gap: 1rem; }
+            .filter-row { flex-direction: column; }
+            .search-box { min-width: 100%; }
+            .products-grid { gap: 1rem; }
+            .section-title { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">StyleMart</div>
-            <nav class="nav-links">
-                <a href="/">Home</a>
-                <a href="/products-page">Products</a>
-                <a href="/cart-page" class="cart-icon">
-                    🛒
-                    <span class="cart-count" id="cartCount">0</span>
-                </a>
-                <a href="/orders-page">My Orders</a>
-                <a href="/logout">Logout</a>
-            </nav>
-        </div>
-    </header>
+    <!-- Unified Header will be loaded automatically -->
+    <script src="/js/header-loader.js"></script>
 
     <div class="container">
         <div class="filters">
             <div class="filter-row">
-                <input type="text" id="searchInput" class="search-box" placeholder="Search products...">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search for products, brands and more...">
                 <select id="categorySelect" class="category-select">
                     <option value="">All Categories</option>
                     <option value="Men">Men</option>
@@ -279,152 +242,324 @@
                     <option value="Home & Living">Home & Living</option>
                     <option value="Beauty">Beauty</option>
                 </select>
-                <button class="search-btn" onclick="searchProducts()">Search</button>
+                <button class="search-btn" onclick="searchProducts()"><i class="fas fa-search"></i> Search</button>
             </div>
         </div>
-
-        <div id="productsContainer">
+        
+        <main id="pageContent">
             <div class="loading">Loading products...</div>
-        </div>
-        <!-- Cart display area -->
-        <div id="cartDisplay" style="max-width:400px;max-height:300px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin:2rem auto 0 auto;"></div>
+        </main>
     </div>
 
     <script>
         let allProducts = [];
-        let cartCount = 0;
 
-        // --- Cart Logic using localStorage ---
-        function getCart() {
-            return JSON.parse(localStorage.getItem('cart')) || [];
-        }
-        function saveCart(cart) {
-            localStorage.setItem('cart', JSON.stringify(cart));
-        }
+        // --- Aapka banaya hua Cart Logic (koi change nahi) ---
+        function getCart() { return JSON.parse(localStorage.getItem('cart')) || []; }
+        function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); }
         function addToCart(productId, productName, price, imageUrl) {
-            let cart = getCart();
-            let existing = cart.find(item => item.productId === productId);
-            if (existing) {
-                existing.quantity += 1;
+            // Use unified header's cart functionality
+            if (window.headerLoader) {
+                const cart = window.headerLoader.getCart();
+                let existing = cart.find(item => item.productId === productId);
+                
+                if (existing) {
+                    existing.quantity += 1;
+                } else {
+                    cart.push({ 
+                        productId, 
+                        productName, 
+                        price, 
+                        imageUrl: imageUrl || '/static/img/default.jpg',
+                        quantity: 1 
+                    });
+                }
+                
+                window.headerLoader.saveCart(cart);
+                window.headerLoader.updateCartCount();
+                alert(`${productName} added to cart!`);
             } else {
-                cart.push({ productId, productName, price, imageUrl, quantity: 1 });
+                // Fallback to old method
+                let cart = getCart();
+                let existing = cart.find(item => item.productId === productId);
+                if (existing) {
+                    existing.quantity += 1;
+                } else {
+                    cart.push({ productId, productName, price, imageUrl, quantity: 1 });
+                }
+                saveCart(cart);
+                alert(`${productName} added to cart!`);
+                updateCartCount();
             }
-            saveCart(cart);
-            alert(`${productName} added to cart!`);
-            updateCartCount();
-            displayCart();
         }
         function updateCartCount() {
-            let cart = getCart();
-            let count = cart.reduce((sum, item) => sum + item.quantity, 0);
-            let cartCountElem = document.getElementById('cartCount');
-            if (cartCountElem) cartCountElem.textContent = count;
-        }
-        function displayCart() {
-            let cart = getCart();
-            let cartDiv = document.getElementById('cartDisplay');
-            if (!cartDiv) return;
-            if (cart.length === 0) {
-                cartDiv.innerHTML = '<div>Your cart is empty.</div>';
-                return;
+            // Use unified header's cart count
+            if (window.headerLoader) {
+                window.headerLoader.updateCartCount();
+            } else {
+                // Fallback to old method
+                let cart = getCart();
+                let count = cart.reduce((sum, item) => sum + item.quantity, 0);
+                let cartCountElem = document.getElementById('cartCount');
+                if (cartCountElem) cartCountElem.textContent = count;
             }
-            cartDiv.innerHTML = cart.map(item => `
-                <div style="display:flex;align-items:center;margin-bottom:10px;">
-                    <img src="${item.imageUrl}" alt="${item.productName}" style="width:50px;height:50px;object-fit:cover;margin-right:10px;">
-                    <div>
-                        <div><strong>${item.productName}</strong></div>
-                        <div>₹${item.price} x ${item.quantity}</div>
-                    </div>
-                </div>
-            `).join('');
         }
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProducts();
-            updateCartCount();
-            displayCart();
-        });
         // --- End Cart Logic ---
 
-        // Search on Enter key
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchProducts();
+        // --- Wishlist Logic ---
+        function getWishlist() {
+            return JSON.parse(localStorage.getItem('wishlist')) || [];
+        }
+
+        function saveWishlist(wishlist) {
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
+
+        function toggleWishlist(productId, productName, price, imageUrl, category) {
+            const wishlist = getWishlist();
+            const existingItem = wishlist.find(item => item.id === productId);
+            
+            if (existingItem) {
+                // Remove from wishlist
+                const updatedWishlist = wishlist.filter(item => item.id !== productId);
+                saveWishlist(updatedWishlist);
+                showNotification(`${productName} removed from wishlist`);
+                
+                // Update button appearance
+                const btn = event.target.closest('.wishlist-btn');
+                if (btn) {
+                    btn.classList.remove('active');
+                }
+            } else {
+                // Add to wishlist
+                wishlist.push({
+                    id: productId,
+                    name: productName,
+                    brand: 'StyleMart',
+                    price: price,
+                    image: imageUrl,
+                    category: category
+                });
+                saveWishlist(wishlist);
+                showNotification(`${productName} added to wishlist!`);
+                
+                // Update button appearance
+                const btn = event.target.closest('.wishlist-btn');
+                if (btn) {
+                    btn.classList.add('active');
+                }
             }
+        }
+
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ff3f6c;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 4px;
+                font-size: 14px;
+                font-weight: 600;
+                z-index: 10000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            // Add animation styles
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Update wishlist button states based on saved wishlist
+        function updateWishlistButtons() {
+            const wishlist = getWishlist();
+            const wishlistButtons = document.querySelectorAll('.wishlist-btn');
+            
+            wishlistButtons.forEach(btn => {
+                const productId = parseInt(btn.getAttribute('onclick').match(/toggleWishlist\((\d+)/)[1]);
+                if (wishlist.find(item => item.id === productId)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+        // --- End Wishlist Logic ---
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initial page load
+            initializeShoppingPage();
+            
+            // Wait for header to load, then update cart count
+            setTimeout(function() {
+                updateCartCount();
+                updateWishlistButtons();
+            }, 500);
+
+            // Search on Enter key
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchProducts();
+                }
+            });
+            // Search when category changes
+            document.getElementById('categorySelect').addEventListener('change', searchProducts);
         });
 
-        async function loadProducts() {
+        async function initializeShoppingPage() {
             try {
-                const response = await fetch('/products');
+                // Dummy API call. Aap isse apne asli API se connect karein.
+                const response = await fetch('/products'); 
                 allProducts = await response.json();
-                displayProducts(allProducts);
+                renderHomePageLayout();
             } catch (error) {
                 console.error('Error loading products:', error);
-                document.getElementById('productsContainer').innerHTML = 
+                document.getElementById('pageContent').innerHTML = 
                     '<div class="no-products">Error loading products. Please try again.</div>';
             }
+        }
+
+        function renderHomePageLayout() {
+            const pageContent = document.getElementById('pageContent');
+            pageContent.innerHTML = ''; // Clear loading message
+
+            // Yahan sections define karein
+            renderCategorySection('Electronics', 'Top Deals in Electronics', pageContent);
+            renderCategorySection('Men', 'Latest in Men\'s Fashion', pageContent);
+            renderCategorySection('Women', 'Trending for Women', pageContent);
+            renderCategorySection('Home & Living', 'Home & Living Essentials', pageContent);
+            
+            // Update wishlist button states after rendering
+            setTimeout(updateWishlistButtons, 100);
+        }
+
+        function renderCategorySection(category, title, container) {
+            const categoryProducts = allProducts.filter(p => p.category === category).slice(0, 4); // Har section me 4 product dikhayenge
+
+            if (categoryProducts.length === 0) return; // Agar category me product nahi hai to section nahi banega
+
+            const sectionHTML = `
+                <section class="product-category-section">
+                    <div class="section-header">
+                        <h2 class="section-title">${title}</h2>
+                        <a href="#" onclick="searchByCategory('${category}')" class="view-all-link">View All &rarr;</a>
+                    </div>
+                    <div class="products-grid">
+                        ${categoryProducts.map(product => createProductCardHTML(product)).join('')}
+                    </div>
+                </section>
+            `;
+            container.innerHTML += sectionHTML;
         }
 
         async function searchProducts() {
             const search = document.getElementById('searchInput').value;
             const category = document.getElementById('categorySelect').value;
             
-            let url = '/products?';
+            // Agar search or category dono khali hai to home page layout dikhao
+            if (!search && !category) {
+                renderHomePageLayout();
+                return;
+            }
+
             const params = new URLSearchParams();
-            
             if (search) params.append('search', search);
             if (category) params.append('category', category);
             
             try {
                 const response = await fetch('/products?' + params.toString());
                 const products = await response.json();
-                displayProducts(products);
+                displaySearchResults(products, 'Search Results');
             } catch (error) {
                 console.error('Error searching products:', error);
             }
         }
+        
+        function searchByCategory(category) {
+            document.getElementById('categorySelect').value = category;
+            document.getElementById('searchInput').value = '';
+            searchProducts();
+        }
 
-        function displayProducts(products) {
-            const container = document.getElementById('productsContainer');
+        function displaySearchResults(products, title) {
+            const container = document.getElementById('pageContent');
             
+            let resultsHTML;
             if (products.length === 0) {
-                container.innerHTML = '<div class="no-products">No products found.</div>';
-                return;
+                resultsHTML = '<div class="no-products">No products found.</div>';
+            } else {
+                resultsHTML = `
+                    <section class="product-category-section">
+                        <div class="section-header">
+                            <h2 class="section-title">${title}</h2>
+                        </div>
+                        <div class="products-grid">
+                            ${products.map(product => createProductCardHTML(product)).join('')}
+                        </div>
+                    </section>
+                `;
             }
+            container.innerHTML = resultsHTML;
+            
+            // Update wishlist button states after rendering
+            setTimeout(updateWishlistButtons, 100);
+        }
+        
+        function createProductCardHTML(product) {
+            const imageUrl = product.images && product.images.length > 0 ? product.images[0] : 'https://via.placeholder.com/280x250';
+            // Product name me single quote (') hone par problem na ho, isliye replace karein
+            const safeProductName = product.name.replace(/'/g, "\\'"); 
 
-            const productsHTML = products.map(product => `
+            return `
                 <div class="product-card" onclick="viewProduct(${product.id})">
-                    <img src="${product.images && product.images.length > 0 ? product.images[0] : 'https://via.placeholder.com/280x250'}" 
-                         alt="${product.name}" class="product-image">
+                    <div class="product-image-container">
+                        <img src="${imageUrl}" alt="${product.name}" class="product-image">
+                        <button class="wishlist-btn" onclick="event.stopPropagation(); toggleWishlist(${product.id}, '${safeProductName}', ${product.price}, '${imageUrl}', '${product.category || ''}')">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
                     <div class="product-info">
                         <div class="product-name">${product.name}</div>
                         <div class="product-price">₹${product.price}</div>
                         <div class="product-rating">
                             <span class="stars">${generateStars(product.rating)}</span>
-                            <span class="rating-text">${product.rating} (${product.reviewCount} reviews)</span>
+                            <span class="rating-text">${product.rating} (${product.reviewCount || 0} reviews)</span>
                         </div>
-                        <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.images && product.images.length > 0 ? product.images[0] : 'https://via.placeholder.com/280x250'}')">
-                            Add to Cart
-                        </button>
+                    </div>
+                    <div class="card-overlay">
+                         <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${product.id}, '${safeProductName}', ${product.price}, '${imageUrl}')">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                         </button>
                     </div>
                 </div>
-            `).join('');
-
-            container.innerHTML = `<div class="products-grid">${productsHTML}</div>`;
+            `;
         }
 
         function generateStars(rating) {
+            rating = rating || 0;
             const fullStars = Math.floor(rating);
-            const hasHalfStar = rating % 1 !== 0;
-            let stars = '';
-            
-            for (let i = 0; i < fullStars; i++) {
-                stars += '★';
-            }
-            if (hasHalfStar) {
-                stars += '☆';
-            }
-            
-            return stars;
+            const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+            const emptyStars = 5 - fullStars - halfStar;
+            return '★'.repeat(fullStars) + '☆'.repeat(halfStar) + ''.repeat(emptyStars).padStart(emptyStars, '☆');
         }
 
         function viewProduct(productId) {

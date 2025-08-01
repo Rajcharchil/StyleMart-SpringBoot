@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart - StyleMart</title>
+    <script src="/js/header-loader.js"></script>
     <style>
         * {
             margin: 0;
@@ -17,44 +18,7 @@
             line-height: 1.6;
         }
 
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .nav-links a:hover {
-            background-color: rgba(255,255,255,0.2);
-        }
+        /* Header styles are now in unified header component */
 
         .container {
             max-width: 1200px;
@@ -267,18 +231,7 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">StyleMart</div>
-            <nav class="nav-links">
-                <a href="/">Home</a>
-                <a href="/products-page">Products</a>
-                <a href="/cart-page">Cart</a>
-                <a href="/orders-page">My Orders</a>
-                <a href="/logout">Logout</a>
-            </nav>
-        </div>
-    </header>
+    <!-- Unified Header will be loaded automatically -->
 
     <div class="container">
         <div class="cart-header">
@@ -303,11 +256,17 @@
             localStorage.setItem('cart', JSON.stringify(cart));
         }
         function updateCartCount() {
-            let cart = getCart();
-            let count = cart.reduce((sum, item) => sum + item.quantity, 0);
-            let cartCountElem = document.getElementById('cartCount');
-            if (cartCountElem) cartCountElem.textContent = count;
+            // Use unified header's cart count
+            if (window.headerLoader) {
+                window.headerLoader.updateCartCount();
+            } else {
+                // Fallback to old method
+                let cart = getCart();
+                let count = cart.reduce((sum, item) => sum + item.quantity, 0);
+                let cartCountElem = document.getElementById('cartCount');
+                if (cartCountElem) cartCountElem.textContent = count;
             }
+        }
         function displayCart() {
             let cart = getCart();
             let cartDiv = document.getElementById('cartContent');
@@ -318,7 +277,7 @@
                         <div class="empty-cart-icon">🛒</div>
                         <h2>Your cart is empty</h2>
                         <p>Add some products to get started!</p>
-                        <a href="/products-page" class="continue-shopping">Continue Shopping</a>
+                        <a href="/products.html" class="continue-shopping">Continue Shopping</a>
                     </div>
                 `;
                 return;
@@ -357,7 +316,7 @@
                             <span>Total</span>
                             <span>₹${cartTotal + 99}</span>
                         </div>
-                        <button class="checkout-btn" onclick="window.location.href='/checkout'">
+                        <button class="checkout-btn" onclick="window.location.href='/checkout.html'">
                             Proceed to Checkout
                         </button>
                     </div>
@@ -393,8 +352,11 @@
             window.location.href = '/checkout';
         }
         document.addEventListener('DOMContentLoaded', function() {
-            displayCart();
-            updateCartCount();
+            // Wait for header to load, then display cart
+            setTimeout(function() {
+                displayCart();
+                updateCartCount();
+            }, 500);
         });
         // --- End Cart Logic ---
     </script>

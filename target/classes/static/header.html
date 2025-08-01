@@ -1,0 +1,524 @@
+<!-- Unified Header Component -->
+<header class="unified-header">
+  <div class="nav-wrapper">
+    <div class="logo-area">
+      <img src="/templates/assest/logo.jpg" alt="StyleMart Logo" class="logo-img">
+    </div>
+    
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/men.html">MEN</a></li>
+        <li><a href="#">WOMEN</a></li>
+        <li><a href="#">KIDS</a></li>
+        <li><a href="/">HOME</a></li>
+        <li><a href="#">BEAUTY</a></li>
+        <li><a href="#">GENZ</a></li>
+        <li><a href="#">STUDIO <span class="new-badge">NEW</span></a></li>
+      </ul>
+    </nav>
+    
+    <div class="search-box" role="search">
+      <input type="search" id="headerSearch" placeholder="Search for products, brands and more" aria-label="Search products"/>
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 21 15 15m-6 2a7 7 0 1 1 0-14 7 7 0 0 1 0 14z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    
+    <div class="header-icons">
+      <div class="icon-block" onclick="toggleProfileDropdown()">
+        <img src="/templates/assest/user.png" alt="Profile" />
+        <span>Profile</span>
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="dropdown-section">
+            <h3>Welcome</h3>
+            <p>To access account and manage orders</p>
+            <button class="login-btn" onclick="window.location.href='/login'">LOGIN / SIGNUP</button>
+          </div>
+          
+          <div class="dropdown-divider"></div>
+          
+          <div class="dropdown-section">
+            <ul class="dropdown-links">
+              <li><a href="/orders.html">Orders</a></li>
+              <li><a href="#" onclick="toggleWishlist()">Wishlist</a></li>
+              <li><a href="#">Gift Cards</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">StyleMart Insider <span class="new-badge-small">New</span></a></li>
+            </ul>
+          </div>
+          
+          <div class="dropdown-divider"></div>
+          
+          <div class="dropdown-section">
+            <ul class="dropdown-links">
+              <li><a href="#">StyleMart Credit</a></li>
+              <li><a href="#">Coupons</a></li>
+              <li><a href="#">Saved Cards</a></li>
+              <li><a href="#">Saved VPA</a></li>
+              <li><a href="#">Saved Addresses</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="icon-block" onclick="window.location.href='/wishlist.html'">
+        <img src="/templates/assest/heart.png" alt="Wishlist" />
+        <span>Wishlist</span>
+      </div>
+      <div class="icon-block cart-icon" onclick="window.location.href='/cart.html'">
+        <img src="/templates/assest/shopping-bag.png" alt="Bag" />
+        <span>Bag</span>
+        <span class="cart-count" id="headerCartCount">0</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+/* Unified Header Styles */
+.unified-header {
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+
+.nav-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1380px;
+  margin: auto;
+  padding: 1rem 2rem;
+}
+
+.logo-area {
+  flex-shrink: 0;
+}
+
+.logo-img {
+  height: 40px;
+  width: auto;
+}
+
+.main-nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav a {
+  color: #212529;
+  text-decoration: none;
+  position: relative;
+  font-weight: 600;
+  transition: color 0.25s ease;
+  padding: 0.5rem 0;
+}
+
+.main-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #ff3f6c;
+  transition: width 0.25s ease;
+}
+
+.main-nav a:hover {
+  color: #ff3f6c;
+}
+
+.main-nav a:hover::after {
+  width: 100%;
+}
+
+.new-badge {
+  background: #ff3f6c;
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  margin-left: 0.3rem;
+}
+
+.search-box {
+  flex: 1;
+  margin-inline: 2rem;
+  position: relative;
+  max-width: 400px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.65rem 1rem 0.65rem 3rem;
+  border: 1px solid #ddd;
+  border-radius: 2rem;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.25s ease;
+}
+
+.search-box input:focus {
+  border-color: #ff3f6c;
+}
+
+.search-box svg {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  fill: #6c757d;
+}
+
+.header-icons {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  position: relative;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.icon-block:hover {
+  transform: scale(1.1);
+  background: rgba(255, 63, 108, 0.1);
+}
+
+.icon-block img {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 5px;
+}
+
+.icon-block span {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.cart-icon {
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  background: #ff3f6c;
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .nav-wrapper {
+    padding: 1rem;
+  }
+  
+  .main-nav ul {
+    gap: 1rem;
+  }
+  
+  .search-box {
+    margin-inline: 1rem;
+  }
+  
+  .header-icons {
+    gap: 1rem;
+  }
+}
+
+/* Profile Dropdown Styles */
+.icon-block {
+  position: relative;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 280px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  z-index: 1000;
+  display: none;
+  margin-top: 8px;
+  border: 1px solid #e8e8e8;
+}
+
+.profile-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+}
+
+.dropdown-section {
+  padding: 20px;
+}
+
+.dropdown-section:first-child {
+  padding-top: 24px;
+}
+
+.dropdown-section:last-child {
+  padding-bottom: 24px;
+}
+
+.dropdown-section h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #282c3f;
+}
+
+.dropdown-section p {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  color: #94969f;
+  line-height: 1.4;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid #ff3f6c;
+  color: #ff3f6c;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+}
+
+.login-btn:hover {
+  background: #ff3f6c;
+  color: white;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: #f5f5f6;
+  margin: 0;
+}
+
+.dropdown-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-links li {
+  margin: 0;
+}
+
+.dropdown-links a {
+  display: block;
+  padding: 12px 0;
+  color: #282c3f;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.dropdown-links a:hover {
+  color: #ff3f6c;
+}
+
+.new-badge-small {
+  background: #ff3f6c;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 8px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .nav-wrapper {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .main-nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .main-nav a {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.5rem;
+  }
+  
+  .search-box {
+    margin-inline: 0;
+    max-width: 100%;
+    order: 3;
+  }
+  
+  .header-icons {
+    gap: 1.5rem;
+  }
+  
+  .icon-block span {
+    font-size: 0.7rem;
+  }
+  
+  .profile-dropdown {
+    width: 260px;
+    right: -10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-nav ul {
+    gap: 0.3rem;
+  }
+  
+  .main-nav a {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.3rem;
+  }
+  
+  .header-icons {
+    gap: 1rem;
+  }
+  
+  .icon-block img {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .profile-dropdown {
+    width: 240px;
+    right: -20px;
+  }
+  
+  .dropdown-section {
+    padding: 16px;
+  }
+}
+</style>
+
+<script>
+// Unified Header JavaScript Functionality
+
+// Cart Management Functions
+function getCart() {
+    return JSON.parse(localStorage.getItem('cart')) || [];
+}
+
+function saveCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function updateCartCount() {
+    let cart = getCart();
+    let count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    let cartCountElem = document.getElementById('headerCartCount');
+    if (cartCountElem) {
+        cartCountElem.textContent = count;
+        // Hide count if 0
+        cartCountElem.style.display = count > 0 ? 'flex' : 'none';
+    }
+}
+
+// Wishlist Functions
+function toggleWishlist() {
+    // Implement wishlist toggle functionality
+    console.log('Wishlist toggled');
+    // You can add your wishlist logic here
+}
+
+// Profile Dropdown Functions
+function toggleProfileDropdown() {
+    const dropdown = document.getElementById('profileDropdown');
+    if (dropdown) {
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('profileDropdown');
+    const profileIcon = document.querySelector('.icon-block');
+    
+    if (dropdown && !profileIcon.contains(event.target)) {
+        dropdown.style.display = 'none';
+    }
+});
+
+// Search Functionality
+function initializeHeaderSearch() {
+    const searchInput = document.getElementById('headerSearch');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value.trim();
+                if (searchTerm) {
+                    // Redirect to products page with search
+                    window.location.href = `/products?search=${encodeURIComponent(searchTerm)}`;
+                }
+            }
+        });
+    }
+}
+
+// Initialize header functionality when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartCount();
+    initializeHeaderSearch();
+});
+
+// Export functions for use in other pages
+window.headerFunctions = {
+    updateCartCount,
+    getCart,
+    saveCart,
+    toggleWishlist
+};
+
+// Listen for cart changes in other tabs/windows
+window.addEventListener('storage', function(e) {
+    if (e.key === 'cart') {
+        updateCartCount();
+    }
+});
+</script> 
