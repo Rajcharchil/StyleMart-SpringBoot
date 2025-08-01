@@ -676,7 +676,7 @@
                         <span style="color: #ffa41c; font-size: 14px;">${'★'.repeat(Math.floor(prod.rating))}${'☆'.repeat(5-Math.floor(prod.rating))}</span>
                         <span style="color: #666; font-size: 12px;">(${prod.rating})</span>
                     </div>
-                    <button class="add-cart-btn" onclick="addToCart('${prod.id}', '${prod.title}', '₹${prod.price}')">Add to Cart</button>
+                    <button class="add-cart-btn" onclick="addToCart('${prod.id}', '${prod.title}', ${prod.price}, '/img/${prod.image}')">Add to Cart</button>
                 </div>
             </div>
             `;
@@ -686,7 +686,7 @@
     }
 
     // Add to cart functionality
-    function addToCart(productId, productName, price) {
+    function addToCart(productId, productName, price, imagePath) {
         if (window.headerLoader) {
             const cart = window.headerLoader.getCart();
             let existing = cart.find(item => item.productId === productId);
@@ -698,7 +698,8 @@
                     productId, 
                     productName, 
                     price, 
-                    quantity: 1 
+                    quantity: 1,
+                    imageUrl: imagePath
                 });
             }
             

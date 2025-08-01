@@ -303,10 +303,16 @@
                 `;
                 return;
             }
-            let cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+            let cartTotal = cart.reduce((total, item) => {
+                // Handle both string and numeric prices
+                let price = typeof item.price === 'string' ? 
+                    parseInt(item.price.replace('₹', '').replace(',', '')) : 
+                    item.price;
+                return total + (price * item.quantity);
+            }, 0);
             const cartItemsHTML = cart.map((item, idx) => `
                 <div class="cart-item">
-                    <img src="${item.imageUrl || '/static/img/default.jpg'}" alt="${item.productName}" class="item-image">
+                    <img src="${item.imageUrl || '/templates/assest/logo.jpg'}" alt="${item.productName}" class="item-image" onerror="this.src='/templates/assest/logo.jpg'">
                     <div class="item-details">
                         <div class="item-name">${item.productName}</div>
                         <div class="item-variant">Qty: <input type='number' min='1' value='${item.quantity}' onchange='updateQuantity(${idx}, this.value)' class='qty-input'></div>
@@ -314,7 +320,12 @@
                         <button class="remove-btn" onclick="removeItem(${idx})">Remove</button>
                     </div>
                     <div class="item-total">
-                        <strong>₹${item.price * item.quantity}</strong>
+                        <strong>₹${(function() {
+                            let price = typeof item.price === 'string' ? 
+                                parseInt(item.price.replace('₹', '').replace(',', '')) : 
+                                item.price;
+                            return price * item.quantity;
+                        })()}</strong>
                     </div>
                 </div>
             `).join('');
