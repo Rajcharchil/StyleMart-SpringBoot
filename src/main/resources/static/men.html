@@ -474,8 +474,8 @@
             </div>
         </div>
 
-        <div class="products-grid" id="productsGrid">
-            <!-- Product cards will be inserted here dynamically -->
+    <div class="products-grid" id="productsGrid">
+        <!-- Product cards will be inserted here dynamically -->
         </div>
     </div>
 </div>
@@ -687,26 +687,31 @@
 
     // Add to cart functionality
     function addToCart(productId, productName, price, imagePath) {
-        if (window.headerLoader) {
-            const cart = window.headerLoader.getCart();
-            let existing = cart.find(item => item.productId === productId);
-            
-            if (existing) {
-                existing.quantity += 1;
-            } else {
-                cart.push({ 
-                    productId, 
-                    productName, 
-                    price, 
-                    quantity: 1,
-                    imageUrl: imagePath
-                });
-            }
-            
-            window.headerLoader.saveCart(cart);
-            window.headerLoader.updateCartCount();
-            alert(`${productName} added to cart!`);
+        // Get cart from localStorage directly
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let existing = cart.find(item => item.productId === productId);
+        
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cart.push({ 
+                productId: productId.toString(), 
+                productName: productName, 
+                price: price, 
+                quantity: 1,
+                imageUrl: imagePath
+            });
         }
+        
+        // Save to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        // Update header cart count
+        if (window.headerLoader) {
+            window.headerLoader.updateCartCount();
+        }
+        
+        alert(`${productName} added to cart!`);
     }
 
     // Load more products

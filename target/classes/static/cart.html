@@ -310,7 +310,14 @@
                     item.price;
                 return total + (price * item.quantity);
             }, 0);
-            const cartItemsHTML = cart.map((item, idx) => `
+            const cartItemsHTML = cart.map((item, idx) => {
+                // Calculate item total
+                let price = typeof item.price === 'string' ? 
+                    parseInt(item.price.replace('₹', '').replace(',', '')) : 
+                    item.price;
+                let itemTotal = price * item.quantity;
+                
+                return `
                 <div class="cart-item">
                     <img src="${item.imageUrl || '/templates/assest/logo.jpg'}" alt="${item.productName}" class="item-image" onerror="this.src='/templates/assest/logo.jpg'">
                     <div class="item-details">
@@ -320,15 +327,11 @@
                         <button class="remove-btn" onclick="removeItem(${idx})">Remove</button>
                     </div>
                     <div class="item-total">
-                        <strong>₹${(function() {
-                            let price = typeof item.price === 'string' ? 
-                                parseInt(item.price.replace('₹', '').replace(',', '')) : 
-                                item.price;
-                            return price * item.quantity;
-                        })()}</strong>
+                        <strong>₹${itemTotal}</strong>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
             const cartHTML = `
                 <div class="cart-content">
                     <div class="cart-items">

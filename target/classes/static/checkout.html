@@ -409,22 +409,35 @@
                 return;
             }
 
-            const itemsHTML = cartItems.map(item => `
+            const itemsHTML = cartItems.map(item => {
+                // Calculate item total properly
+                let price = typeof item.price === 'string' ? 
+                    parseInt(item.price.replace('₹', '').replace(',', '')) : 
+                    item.price;
+                let itemTotal = price * item.quantity;
+                
+                return `
                 <div class="order-item">
-                    <img src="${item.imageUrl || '/static/img/default.jpg'}" alt="${item.productName}">
+                    <img src="${item.imageUrl || '/templates/assest/logo.jpg'}" alt="${item.productName}" onerror="this.src='/templates/assest/logo.jpg'">
                     <div class="order-item-details">
                         <div class="order-item-name">${item.productName}</div>
-                        <div class="order-item-price">Qty: ${item.quantity} × ₹${item.price}</div>
+                        <div class="order-item-price">Qty: ${item.quantity} × ₹${price}</div>
                     </div>
-                    <div class="order-item-total">₹${item.price * item.quantity}</div>
+                    <div class="order-item-total">₹${itemTotal}</div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
 
             orderItemsDiv.innerHTML = itemsHTML;
         }
 
         function updateOrderTotal() {
-            const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const subtotal = cartItems.reduce((total, item) => {
+                let price = typeof item.price === 'string' ? 
+                    parseInt(item.price.replace('₹', '').replace(',', '')) : 
+                    item.price;
+                return total + (price * item.quantity);
+            }, 0);
             const shipping = 99;
             const total = subtotal + shipping;
 
