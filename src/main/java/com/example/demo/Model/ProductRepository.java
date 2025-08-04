@@ -1,11 +1,11 @@
 package com.example.demo.Model;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -24,4 +24,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
            "LOWER(p.description) LIKE LOWER(CONCAT('%', :search, '%')))")
     List<Product> findByActiveTrueAndCategoryAndNameOrDescriptionContainingIgnoreCase(
             @Param("category") String category, @Param("search") String search);
+    
+    // Get products by gender category
+    List<Product> findByActiveTrueAndCategoryIn(List<String> categories);
 }

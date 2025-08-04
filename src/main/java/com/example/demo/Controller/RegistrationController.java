@@ -50,7 +50,7 @@ public class RegistrationController {
         //Send Email Code
         emailService.sendVerificationEmail(user.getEmail(), vericationToken);
         
-        return new ResponseEntity<>("Registration successfull! Please Verify your Email", HttpStatus.OK);
+        return new ResponseEntity<>("Registration successfull! Please go to the login page", HttpStatus.OK);
     }
     
 }

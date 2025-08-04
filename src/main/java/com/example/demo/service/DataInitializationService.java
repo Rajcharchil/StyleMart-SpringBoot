@@ -1,12 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.Model.Product;
-import com.example.demo.Model.ProductRepository;
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import com.example.demo.Model.Product;
+import com.example.demo.Model.ProductRepository;
 
 @Service
 public class DataInitializationService implements CommandLineRunner {
@@ -45,6 +46,36 @@ public class DataInitializationService implements CommandLineRunner {
         womenTop.setRating(4.1);
         womenTop.setReviewCount(34);
         
+        Product womenJeans = new Product("High-Waist Jeans", 1899.0, 30, "Women", "Stylish high-waist jeans for women");
+        womenJeans.setImages(Arrays.asList("https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg"));
+        womenJeans.setRating(4.4);
+        womenJeans.setReviewCount(56);
+        
+        Product womenHandbag = new Product("Designer Handbag", 2499.0, 20, "Women", "Elegant designer handbag for women");
+        womenHandbag.setImages(Arrays.asList("https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg"));
+        womenHandbag.setRating(4.3);
+        womenHandbag.setReviewCount(42);
+        
+        Product womenShoes = new Product("Stylish Heels", 1999.0, 25, "Women", "Comfortable and stylish heels for women");
+        womenShoes.setImages(Arrays.asList("https://images.pexels.com/photos/267301/pexels-photo-267301.jpeg"));
+        womenShoes.setRating(4.5);
+        womenShoes.setReviewCount(38);
+        
+        Product womenJewelry = new Product("Silver Necklace Set", 999.0, 35, "Women", "Beautiful silver necklace set for women");
+        womenJewelry.setImages(Arrays.asList("https://images.pexels.com/photos/1191531/pexels-photo-1191531.jpeg"));
+        womenJewelry.setRating(4.2);
+        womenJewelry.setReviewCount(28);
+        
+        Product womenEthnic = new Product("Kurti with Dupatta", 1299.0, 30, "Women", "Traditional kurti with matching dupatta");
+        womenEthnic.setImages(Arrays.asList("https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg"));
+        womenEthnic.setRating(4.6);
+        womenEthnic.setReviewCount(45);
+        
+        Product womenSaree = new Product("Elegant Saree", 3999.0, 15, "Women", "Traditional elegant saree for special occasions");
+        womenSaree.setImages(Arrays.asList("https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg"));
+        womenSaree.setRating(4.8);
+        womenSaree.setReviewCount(67);
+        
         // Kids Clothing
         Product kidsShirt = new Product("Kids Cartoon T-Shirt", 599.0, 60, "Kids", "Fun cartoon printed t-shirt for kids");
         kidsShirt.setImages(Arrays.asList("https://images.pexels.com/photos/1620760/pexels-photo-1620760.jpeg"));
@@ -76,7 +107,8 @@ public class DataInitializationService implements CommandLineRunner {
         
         // Save all products
         productRepository.saveAll(Arrays.asList(
-            menShirt, menJeans, womenDress, womenTop, kidsShirt, 
+            menShirt, menJeans, womenDress, womenTop, womenJeans, womenHandbag, 
+            womenShoes, womenJewelry, womenEthnic, womenSaree, kidsShirt, 
             watch, headphones, cushion, skincare
         ));
         
