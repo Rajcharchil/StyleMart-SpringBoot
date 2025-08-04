@@ -384,6 +384,7 @@
             // Wait for header to load, then load cart data
             setTimeout(function() {
                 loadCartData();
+                loadAddresses(); // Load addresses
                 updatePlaceOrderButton();
             }, 500);
         });
@@ -400,6 +401,68 @@
             cartItems = cart;
             displayOrderItems();
             updateOrderTotal();
+        }
+
+        async function loadAddresses() {
+            try {
+                const response = await fetch('/addresses');
+                if (response.ok) {
+                    addresses = await response.json();
+                    displayAddresses();
+                } else if (response.status === 401) {
+                    // User not authenticated - load from localStorage
+                    const tempAddresses = JSON.parse(localStorage.getItem('tempAddresses') || '[]');
+                    addresses = tempAddresses;
+                    displayAddresses();
+                } else {
+                    document.getElementById('addressList').innerHTML = '<p>No addresses found. Please add a new address.</p>';
+                }
+            } catch (error) {
+                console.error('Error loading addresses:', error);
+                // Fallback: load from localStorage
+                const tempAddresses = JSON.parse(localStorage.getItem('tempAddresses') || '[]');
+                addresses = tempAddresses;
+                displayAddresses();
+            }
+        }
+
+        function displayAddresses() {
+            if (addresses.length === 0) {
+                document.getElementById('addressList').innerHTML = '<p>No addresses found. Please add a new address.</p>';
+                return;
+            }
+
+            const addressHTML = addresses.map(address => `
+                <div class="address-card ${address.isDefault ? 'selected' : ''}" onclick="selectAddress(${address.id})">
+                    <div class="address-name">${address.fullName}</div>
+                    <div class="address-details">
+                        ${address.addressLine1}, ${address.addressLine2 ? address.addressLine2 + ', ' : ''}
+                        ${address.city}, ${address.state} - ${address.pincode}<br>
+                        Phone: ${address.phoneNumber}
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('addressList').innerHTML = addressHTML;
+
+            // Select default address if available
+            const defaultAddress = addresses.find(addr => addr.isDefault);
+            if (defaultAddress) {
+                selectedAddressId = defaultAddress.id;
+                updatePlaceOrderButton();
+            }
+        }
+
+        function selectAddress(addressId) {
+            selectedAddressId = addressId;
+            
+            // Update UI
+            document.querySelectorAll('.address-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            updatePlaceOrderButton();
         }
 
         function displayOrderItems() {
@@ -498,6 +561,18 @@
                 return;
             }
 
+            // Validate phone number format
+            if (!addressData.phoneNumber.match(/^\d{10}$/)) {
+                alert('Phone number must be 10 digits');
+                return;
+            }
+
+            // Validate pincode format
+            if (!addressData.pincode.match(/^\d{6}$/)) {
+                alert('Pincode must be 6 digits');
+                return;
+            }
+
             try {
                 const response = await fetch('/addresses', {
                     method: 'POST',
@@ -510,13 +585,43 @@
                 if (response.ok) {
                     hideAddAddressForm();
                     loadAddresses(); // Reload addresses
+                    alert('Address saved successfully!');
+                } else if (response.status === 401) {
+                    // User not authenticated - save to localStorage as temporary address
+                    const tempAddress = {
+                        id: Date.now(), // Temporary ID
+                        ...addressData,
+                        isTemporary: true
+                    };
+                    
+                    // Save to localStorage
+                    let tempAddresses = JSON.parse(localStorage.getItem('tempAddresses') || '[]');
+                    tempAddresses.push(tempAddress);
+                    localStorage.setItem('tempAddresses', JSON.stringify(tempAddresses));
+                    
+                    hideAddAddressForm();
+                    loadAddresses(); // Reload addresses
+                    alert('Address saved temporarily. Please login to save permanently.');
                 } else {
                     const message = await response.text();
-                    alert(message);
+                    alert('Error: ' + message);
                 }
             } catch (error) {
                 console.error('Error saving address:', error);
-                alert('Error saving address');
+                // Fallback: save to localStorage
+                const tempAddress = {
+                    id: Date.now(),
+                    ...addressData,
+                    isTemporary: true
+                };
+                
+                let tempAddresses = JSON.parse(localStorage.getItem('tempAddresses') || '[]');
+                tempAddresses.push(tempAddress);
+                localStorage.setItem('tempAddresses', JSON.stringify(tempAddresses));
+                
+                hideAddAddressForm();
+                loadAddresses();
+                alert('Address saved temporarily. Please login to save permanently.');
             }
         }
 

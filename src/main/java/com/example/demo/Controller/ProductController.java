@@ -64,6 +64,12 @@ public class ProductController {
         return ResponseEntity.ok(menProducts);
     }
     
+    @GetMapping("/kids")
+    public ResponseEntity<List<Product>> getKidsProducts() {
+        List<Product> kidsProducts = productRepository.findByActiveTrueAndCategory("Kids");
+        return ResponseEntity.ok(kidsProducts);
+    }
+    
     @GetMapping("/debug/all")
     public ResponseEntity<List<Product>> getAllProductsDebug() {
         List<Product> allProducts = productRepository.findByActiveTrue();

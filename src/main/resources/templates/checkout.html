@@ -394,12 +394,20 @@
                 if (response.ok) {
                     addresses = await response.json();
                     displayAddresses();
+                } else if (response.status === 401) {
+                    // User not authenticated - load from localStorage
+                    const tempAddresses = JSON.parse(localStorage.getItem('tempAddresses') || '[]');
+                    addresses = tempAddresses;
+                    displayAddresses();
                 } else {
                     document.getElementById('addressList').innerHTML = '<p>No addresses found. Please add a new address.</p>';
                 }
             } catch (error) {
                 console.error('Error loading addresses:', error);
-                document.getElementById('addressList').innerHTML = '<p>No addresses found. Please add a new address.</p>';
+                // Fallback: load from localStorage
+                const tempAddresses = JSON.parse(localStorage.getItem('tempAddresses') || '[]');
+                addresses = tempAddresses;
+                displayAddresses();
             }
         }
 
@@ -518,6 +526,18 @@
             if (!addressData.fullName || !addressData.addressLine1 || !addressData.city || 
                 !addressData.state || !addressData.pincode || !addressData.phoneNumber) {
                 alert('Please fill all required fields');
+                return;
+            }
+
+            // Validate phone number format
+            if (!addressData.phoneNumber.match(/^\d{10}$/)) {
+                alert('Phone number must be 10 digits');
+                return;
+            }
+
+            // Validate pincode format
+            if (!addressData.pincode.match(/^\d{6}$/)) {
+                alert('Pincode must be 6 digits');
                 return;
             }
 

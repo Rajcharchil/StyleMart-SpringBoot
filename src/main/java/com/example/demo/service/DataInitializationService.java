@@ -82,6 +82,26 @@ public class DataInitializationService implements CommandLineRunner {
         kidsShirt.setRating(4.3);
         kidsShirt.setReviewCount(23);
         
+        Product kidsToy = new Product("Educational Building Blocks", 799.0, 40, "Kids", "Educational building blocks for kids");
+        kidsToy.setImages(Arrays.asList("https://images.pexels.com/photos/1620760/pexels-photo-1620760.jpeg"));
+        kidsToy.setRating(4.5);
+        kidsToy.setReviewCount(45);
+        
+        Product kidsDoll = new Product("Barbie Doll Set", 999.0, 35, "Kids", "Beautiful Barbie doll set for kids");
+        kidsDoll.setImages(Arrays.asList("https://images.pexels.com/photos/1620760/pexels-photo-1620760.jpeg"));
+        kidsDoll.setRating(4.7);
+        kidsDoll.setReviewCount(67);
+        
+        Product kidsWatch = new Product("Kids Smart Watch", 1199.0, 25, "Kids", "Smart watch designed for kids");
+        kidsWatch.setImages(Arrays.asList("https://images.pexels.com/photos/1620760/pexels-photo-1620760.jpeg"));
+        kidsWatch.setRating(4.2);
+        kidsWatch.setReviewCount(34);
+        
+        Product kidsShoes = new Product("Kids Sneakers", 899.0, 30, "Kids", "Comfortable sneakers for kids");
+        kidsShoes.setImages(Arrays.asList("https://images.pexels.com/photos/1620760/pexels-photo-1620760.jpeg"));
+        kidsShoes.setRating(4.4);
+        kidsShoes.setReviewCount(56);
+        
         // Electronics
         Product watch = new Product("Smart Fitness Watch", 3999.0, 15, "Electronics", "Advanced fitness tracking smartwatch with heart rate monitor");
         watch.setImages(Arrays.asList("https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg"));
@@ -108,8 +128,8 @@ public class DataInitializationService implements CommandLineRunner {
         // Save all products
         productRepository.saveAll(Arrays.asList(
             menShirt, menJeans, womenDress, womenTop, womenJeans, womenHandbag, 
-            womenShoes, womenJewelry, womenEthnic, womenSaree, kidsShirt, 
-            watch, headphones, cushion, skincare
+            womenShoes, womenJewelry, womenEthnic, womenSaree, kidsShirt, kidsToy, 
+            kidsDoll, kidsWatch, kidsShoes, watch, headphones, cushion, skincare
         ));
         
         System.out.println("Sample products initialized successfully!");
