@@ -279,8 +279,8 @@
                     <div class="order-items">
                         ${order.orderItems.map(item => `
                             <div class="order-item">
-                                <img src="${item.productImage || 'https://via.placeholder.com/80'}" 
-                                     alt="${item.productName}" class="item-image">
+                                <img src="${item.productImage || '/assest/logo.jpg'}" 
+                                     alt="${item.productName}" class="item-image" onerror="this.src='/assest/logo.jpg'">
                                 <div class="item-details">
                                     <div class="item-name">${item.productName}</div>
                                     <div class="item-variant">Qty: ${item.quantity} | Size: ${item.size || 'N/A'} | Color: ${item.color || 'N/A'}</div>

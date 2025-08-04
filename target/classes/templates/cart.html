@@ -285,7 +285,7 @@
             let cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
             const cartItemsHTML = cart.map((item, idx) => `
                 <div class="cart-item">
-                    <img src="${item.imageUrl}" alt="${item.productName}" class="item-image">
+                    <img src="${item.imageUrl || '/assest/logo.jpg'}" alt="${item.productName}" class="item-image" onerror="this.src='/assest/logo.jpg'">
                     <div class="item-details">
                         <div class="item-name">${item.productName}</div>
                         <div class="item-variant">Qty: <input type='number' min='1' value='${item.quantity}' onchange='updateQuantity(${idx}, this.value)' class='qty-input'></div>

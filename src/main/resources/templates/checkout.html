@@ -415,7 +415,7 @@
 
             const itemsHTML = cartItems.map(item => `
                 <div class="summary-item">
-                    <img src="${item.imageUrl}" alt="${item.productName}" class="item-image">
+                    <img src="${item.imageUrl || '/assest/logo.jpg'}" alt="${item.productName}" class="item-image" onerror="this.src='/assest/logo.jpg'">
                     <div class="item-info">
                         <div class="item-name">${item.productName}</div>
                         <div class="item-details">Qty: ${item.quantity}</div>

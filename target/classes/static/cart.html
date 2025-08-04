@@ -319,7 +319,7 @@
                 
                 return `
                 <div class="cart-item">
-                    <img src="${item.imageUrl || '/templates/assest/logo.jpg'}" alt="${item.productName}" class="item-image" onerror="this.src='/templates/assest/logo.jpg'">
+                    <img src="${item.imageUrl || '/assest/logo.jpg'}" alt="${item.productName}" class="item-image" onerror="this.src='/assest/logo.jpg'">
                     <div class="item-details">
                         <div class="item-name">${item.productName}</div>
                         <div class="item-variant">Qty: <input type='number' min='1' value='${item.quantity}' onchange='updateQuantity(${idx}, this.value)' class='qty-input'></div>
