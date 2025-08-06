@@ -1,8 +1,10 @@
 # 🛍️ StyleMart - E-commerce Fashion Platform
 
-https://github.com/user-attachments/assets/da0376d3-08be-43df-a2a2-4f978235fe60
+https://github.com/user-attachments/assets/eba961d2-b4d0-455a-8565-a7418a85a90b
 
-A modern, full-stack e-commerce platform built with Spring Boot for fashion retail. StyleMart provides a complete online shopping experience with user management, product catalog, shopping cart, order processing, and admin dashboard.
+
+
+A modern, full-stack e-commerce platform built with Spring Boot for fashion retail. StyleMart provides a complete online shopping experience with user management, product catalog, shopping cart, order processing, and  dashboard.
 
 ## 📋 Table of Contents
 
