@@ -1,9 +1,22 @@
 package com.example.demo.Model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "orders")
@@ -31,6 +44,13 @@ public class Order {
     
     @Column(nullable = false)
     private String paymentStatus; // PENDING, PAID, FAILED
+    
+    // Tracking information
+    private String trackingNumber;
+    private String courierName;
+    private LocalDateTime estimatedDeliveryDate;
+    private LocalDateTime shippedDate;
+    private LocalDateTime deliveredDate;
     
     // Address details (denormalized for order history)
     @Column(nullable = false)
@@ -76,6 +96,7 @@ public class Order {
         this.id = id;
     }
     
+    @JsonIgnore
     public MyAppUser getUser() {
         return user;
     }
@@ -124,6 +145,46 @@ public class Order {
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
         this.updatedAt = LocalDateTime.now();
+    }
+    
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+    
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+    
+    public String getCourierName() {
+        return courierName;
+    }
+    
+    public void setCourierName(String courierName) {
+        this.courierName = courierName;
+    }
+    
+    public LocalDateTime getEstimatedDeliveryDate() {
+        return estimatedDeliveryDate;
+    }
+    
+    public void setEstimatedDeliveryDate(LocalDateTime estimatedDeliveryDate) {
+        this.estimatedDeliveryDate = estimatedDeliveryDate;
+    }
+    
+    public LocalDateTime getShippedDate() {
+        return shippedDate;
+    }
+    
+    public void setShippedDate(LocalDateTime shippedDate) {
+        this.shippedDate = shippedDate;
+    }
+    
+    public LocalDateTime getDeliveredDate() {
+        return deliveredDate;
+    }
+    
+    public void setDeliveredDate(LocalDateTime deliveredDate) {
+        this.deliveredDate = deliveredDate;
     }
     
     public String getShippingFullName() {

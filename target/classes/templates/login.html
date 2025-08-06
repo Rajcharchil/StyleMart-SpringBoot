@@ -24,9 +24,12 @@
                 <label for="">username</label>
             </div>
             <div class="inputbox">
-                <ion-icon name="lock-closed-outline"></ion-icon>
+                <!-- <ion-icon name="lock-closed-outline"></ion-icon> -->
                 <input name="password" type="password" id="password" required>
                 <label for="">Password</label>
+                <span class="toggle-password" onclick="togglePassword('password', this)">
+                  <ion-icon name="eye-off-outline"></ion-icon>
+                </span>
             </div>
             <div class="register">
                 <p><a href="#">Forget Password ?</a></p>
@@ -43,6 +46,18 @@
   if(window.location.search.includes('loginSuccess')) {
     document.getElementById('login-message').innerText = 'Login successful!';
     document.getElementById('login-message').style.color = 'green';
+  }
+
+  function togglePassword(inputId, iconSpan) {
+    const input = document.getElementById(inputId);
+    const icon = iconSpan.querySelector('ion-icon');
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.setAttribute('name', 'eye-outline');
+    } else {
+      input.type = 'password';
+      icon.setAttribute('name', 'eye-off-outline');
+    }
   }
 </script>
   

@@ -24,14 +24,20 @@
         </div>
         
         <div class="inputbox">
-            <ion-icon name="lock-closed-outline"></ion-icon>
+            <!-- <ion-icon name="lock-closed-outline"></ion-icon> -->
             <input type="password" id="password" name="password" required>
             <label for="">Password</label>
+            <span class="toggle-password" onclick="togglePassword('password', this)">
+              <ion-icon name="eye-off-outline"></ion-icon>
+            </span>
         </div>  
         <div class="inputbox">
-          <ion-icon name="lock-closed-outline"></ion-icon>
+          <!-- <ion-icon name="lock-closed-outline"></ion-icon> -->
           <input type="password" id="passwordcon" name="passwordcon" required>
           <label for="">Confirm Password</label>
+          <span class="toggle-password" onclick="togglePassword('passwordcon', this)">
+            <ion-icon name="eye-off-outline"></ion-icon>
+          </span>
       </div>  
         <button id= "submit" type="submit">Sign Up</button>
       <div class="register">
@@ -78,4 +84,16 @@
       messageDiv.innerText = 'Passwords do not match!';
     }
   });
+
+  function togglePassword(inputId, iconSpan) {
+    const input = document.getElementById(inputId);
+    const icon = iconSpan.querySelector('ion-icon');
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.setAttribute('name', 'eye-outline');
+    } else {
+      input.type = 'password';
+      icon.setAttribute('name', 'eye-off-outline');
+    }
+  }
 </script>

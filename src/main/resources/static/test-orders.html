@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Orders - Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .debug-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .debug-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .debug-data {
+            background: #fff;
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #eee;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .error {
+            color: red;
+            background: #ffe6e6;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            color: green;
+            background: #e6ffe6;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Order Debug Test Page</h1>
+        
+        <div class="debug-section">
+            <div class="debug-title">Test User Orders</div>
+            <button class="btn" onclick="testUserOrders()">Load User Orders</button>
+            <div id="userOrdersResult"></div>
+        </div>
+        
+        <div class="debug-section">
+            <div class="debug-title">Test Admin Orders</div>
+            <button class="btn" onclick="testAdminOrders()">Load Admin Orders</button>
+            <div id="adminOrdersResult"></div>
+        </div>
+        
+        <div class="debug-section">
+            <div class="debug-title">Test Specific Order</div>
+            <input type="number" id="orderIdInput" placeholder="Enter Order ID" style="padding: 5px; margin-right: 10px;">
+            <button class="btn" onclick="testSpecificOrder()">Load Order</button>
+            <div id="specificOrderResult"></div>
+        </div>
+        
+        <div class="debug-section">
+            <div class="debug-title">Test Order Creation</div>
+            <button class="btn" onclick="testCreateOrder()">Create Test Order</button>
+            <div id="createOrderResult"></div>
+        </div>
+    </div>
+
+    <script>
+        async function testUserOrders() {
+            const resultDiv = document.getElementById('userOrdersResult');
+            resultDiv.innerHTML = '<div class="success">Loading user orders...</div>';
+            
+            try {
+                const response = await fetch('/orders');
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <div class="success">✅ User Orders Loaded Successfully!</div>
+                    <div class="debug-data">${JSON.stringify(data, null, 2)}</div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">❌ Error loading user orders: ${error.message}</div>
+                `;
+            }
+        }
+        
+        async function testAdminOrders() {
+            const resultDiv = document.getElementById('adminOrdersResult');
+            resultDiv.innerHTML = '<div class="success">Loading admin orders...</div>';
+            
+            try {
+                const response = await fetch('/admin/orders');
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <div class="success">✅ Admin Orders Loaded Successfully!</div>
+                    <div class="debug-data">${JSON.stringify(data, null, 2)}</div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">❌ Error loading admin orders: ${error.message}</div>
+                `;
+            }
+        }
+        
+        async function testSpecificOrder() {
+            const orderId = document.getElementById('orderIdInput').value;
+            const resultDiv = document.getElementById('specificOrderResult');
+            
+            if (!orderId) {
+                resultDiv.innerHTML = '<div class="error">Please enter an order ID</div>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<div class="success">Loading specific order...</div>';
+            
+            try {
+                const response = await fetch(`/orders/debug/${orderId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ Order Loaded Successfully!</div>
+                        <div class="debug-data">${JSON.stringify(data, null, 2)}</div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="error">❌ Order not found or error occurred</div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">❌ Error loading order: ${error.message}</div>
+                `;
+            }
+        }
+        
+        async function testCreateOrder() {
+            const resultDiv = document.getElementById('createOrderResult');
+            resultDiv.innerHTML = '<div class="success">Creating test order...</div>';
+            
+            try {
+                const response = await fetch('/orders/test-create');
+                const data = await response.text();
+                
+                resultDiv.innerHTML = `
+                    <div class="success">✅ Test Order Creation Result:</div>
+                    <div class="debug-data">${data}</div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">❌ Error creating test order: ${error.message}</div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html> 

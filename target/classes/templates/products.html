@@ -277,7 +277,6 @@
                 
                 window.headerLoader.saveCart(cart);
                 window.headerLoader.updateCartCount();
-                alert(`${productName} added to cart!`);
             } else {
                 // Fallback to old method
                 let cart = getCart();
@@ -288,7 +287,6 @@
                     cart.push({ productId, productName, price, imageUrl, quantity: 1 });
                 }
                 saveCart(cart);
-                alert(`${productName} added to cart!`);
                 updateCartCount();
             }
         }
@@ -352,40 +350,8 @@
         }
 
         function showNotification(message) {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #ff3f6c;
-                color: white;
-                padding: 12px 20px;
-                border-radius: 4px;
-                font-size: 14px;
-                font-weight: 600;
-                z-index: 10000;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                animation: slideIn 0.3s ease;
-            `;
-            notification.textContent = message;
-            
-            // Add animation styles
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes slideIn {
-                    from { transform: translateX(100%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-            `;
-            document.head.appendChild(style);
-            
-            document.body.appendChild(notification);
-            
-            // Remove notification after 3 seconds
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
+            // Notification disabled - no message shown
+            return;
         }
 
         // Update wishlist button states based on saved wishlist

@@ -585,7 +585,7 @@
                 if (response.ok) {
                     hideAddAddressForm();
                     loadAddresses(); // Reload addresses
-                    alert('Address saved successfully!');
+
                 } else if (response.status === 401) {
                     // User not authenticated - save to localStorage as temporary address
                     const tempAddress = {
@@ -637,8 +637,7 @@
             }
 
             // Here you can send cartItems to backend if needed
-            // For now, just show a success message and clear cart
-            alert('Order placed successfully!');
+            // For now, just clear cart
             
             // Clear cart from both unified header and localStorage
             if (window.headerLoader) {

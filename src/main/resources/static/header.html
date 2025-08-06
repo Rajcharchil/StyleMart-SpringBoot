@@ -29,10 +29,11 @@
         <img src="assest/user.png" alt="Profile" />
         <span>Profile</span>
         <div class="profile-dropdown" id="profileDropdown">
-          <div class="dropdown-section">
-            <h3>Welcome</h3>
-            <p>To access account and manage orders</p>
-            <button class="login-btn" onclick="window.location.href='/login'">LOGIN / SIGNUP</button>
+          <div class="dropdown-section" id="profileUserInfo">
+            <!-- User info will be injected here by JS if logged in -->
+            <h3 id="profileUserName">Welcome</h3>
+            <p id="profileUserEmail">To access account and manage orders</p>
+            <button class="login-btn" id="profileLoginBtn" onclick="window.location.href='/login'">LOGIN / SIGNUP</button>
           </div>
           
           <div class="dropdown-divider"></div>

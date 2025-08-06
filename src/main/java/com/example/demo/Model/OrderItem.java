@@ -1,6 +1,16 @@
 package com.example.demo.Model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "order_items")
@@ -45,8 +55,10 @@ public class OrderItem {
         this.size = size;
         this.color = color;
         this.productName = product.getName();
-        if (!product.getImages().isEmpty()) {
+        if (product.getImages() != null && !product.getImages().isEmpty()) {
             this.productImage = product.getImages().get(0);
+        } else {
+            this.productImage = "/assest/logo.jpg"; // Default image
         }
     }
     
@@ -59,6 +71,7 @@ public class OrderItem {
         this.id = id;
     }
     
+    @JsonIgnore
     public Order getOrder() {
         return order;
     }
@@ -67,6 +80,7 @@ public class OrderItem {
         this.order = order;
     }
     
+    @JsonIgnore
     public Product getProduct() {
         return product;
     }

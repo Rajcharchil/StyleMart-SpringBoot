@@ -155,7 +155,7 @@
 
         <div class="action-buttons">
             <a href="/orders.html" class="btn btn-primary">View My Orders</a>
-            <a href="/products.html" class="btn btn-secondary">Continue Shopping</a>
+            <a href="/" class="btn btn-secondary">Continue Shopping</a>
         </div>
     </div>
 
@@ -196,12 +196,20 @@
         }
 
         function displayOrderDetails(order) {
+            const estimatedDelivery = order.estimatedDeliveryDate ? 
+                new Date(order.estimatedDeliveryDate).toLocaleDateString('en-IN', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }) : '3-5 business days';
+                
             document.getElementById('orderDetails').innerHTML = `
                 <div class="order-number">Order #${order.orderNumber}</div>
                 <div class="order-info">
                     Total Amount: ₹${order.totalAmount}<br>
                     Payment Method: ${order.paymentMethod.toUpperCase()}<br>
-                    Estimated Delivery: 3-5 business days
+                    Estimated Delivery: ${estimatedDelivery}<br>
+                    Order Status: ${order.status}
                 </div>
             `;
         }

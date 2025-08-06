@@ -166,6 +166,110 @@
             border-top: 1px solid #e9ecef;
         }
 
+        .tracking-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .tracking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tracking-title {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .tracking-number {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .tracking-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .tracking-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e9ecef;
+        }
+
+        .tracking-step {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+        }
+
+        .tracking-step::before {
+            content: '';
+            position: absolute;
+            left: -0.5rem;
+            top: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background: #e9ecef;
+            border: 3px solid white;
+        }
+
+        .tracking-step.completed::before {
+            background: #28a745;
+        }
+
+        .tracking-step.active::before {
+            background: #007bff;
+        }
+
+        .tracking-step-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .tracking-step-date {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .tracking-step-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        .delivery-info {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .delivery-info h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .delivery-details {
+            color: #6c757d;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
         .loading {
             text-align: center;
             padding: 3rem;
@@ -244,8 +348,10 @@
                 const response = await fetch('/orders');
                 if (response.ok) {
                     const orders = await response.json();
+                    console.log('Orders received:', orders); // Debug log
                     displayOrders(orders);
                 } else {
+                    console.log('Response not ok:', response.status); // Debug log
                     showNoOrders();
                 }
             } catch (error) {
@@ -255,12 +361,16 @@
         }
 
         function displayOrders(orders) {
+            console.log('Displaying orders:', orders); // Debug log
             if (orders.length === 0) {
                 showNoOrders();
                 return;
             }
 
-            const ordersHTML = orders.map(order => `
+            const ordersHTML = orders.map(order => {
+                console.log('Processing order:', order); // Debug log
+                console.log('Order items:', order.orderItems); // Debug log
+                return `
                 <div class="order-card">
                     <div class="order-header">
                         <div class="order-info">
@@ -282,7 +392,7 @@
                         </div>
                     </div>
                     <div class="order-items">
-                        ${order.orderItems.map(item => `
+                        ${(order.orderItems && order.orderItems.length > 0) ? order.orderItems.map(item => `
                             <div class="order-item">
                                 <img src="${item.productImage || '/assest/logo.jpg'}" 
                                      alt="${item.productName}" class="item-image" onerror="this.src='/assest/logo.jpg'">
@@ -295,15 +405,120 @@
                                     <strong>₹${item.subtotal}</strong>
                                 </div>
                             </div>
-                        `).join('')}
+                        `).join('') : '<div class="order-item"><p>No items found for this order</p></div>'}
                     </div>
                     <div class="order-total">
                         Total: ₹${order.totalAmount}
                     </div>
+                    ${generateTrackingSection(order)}
                 </div>
-            `).join('');
+            `;
+            }).join('');
 
             document.getElementById('ordersContainer').innerHTML = ordersHTML;
+        }
+
+        function generateTrackingSection(order) {
+            const status = order.status;
+            const trackingNumber = order.trackingNumber;
+            const courierName = order.courierName;
+            const estimatedDelivery = order.estimatedDeliveryDate;
+            const shippedDate = order.shippedDate;
+            const deliveredDate = order.deliveredDate;
+            
+            let trackingHTML = `
+                <div class="tracking-section">
+                    <div class="tracking-header">
+                        <div class="tracking-title">📦 Order Tracking</div>
+                        ${trackingNumber ? `<div class="tracking-number">${trackingNumber}</div>` : ''}
+                    </div>
+                    <div class="tracking-timeline">
+            `;
+            
+            // Order Placed
+            trackingHTML += `
+                <div class="tracking-step completed">
+                    <div class="tracking-step-title">Order Placed</div>
+                    <div class="tracking-step-date">${formatDate(order.createdAt)}</div>
+                    <div class="tracking-step-description">Your order has been confirmed and is being processed</div>
+                </div>
+            `;
+            
+            // Order Confirmed
+            if (['CONFIRMED', 'SHIPPED', 'DELIVERED'].includes(status)) {
+                trackingHTML += `
+                    <div class="tracking-step completed">
+                        <div class="tracking-step-title">Order Confirmed</div>
+                        <div class="tracking-step-date">${formatDate(order.createdAt)}</div>
+                        <div class="tracking-step-description">Your order has been confirmed and is ready for shipping</div>
+                    </div>
+                `;
+            } else {
+                trackingHTML += `
+                    <div class="tracking-step ${status === 'PENDING' ? 'active' : ''}">
+                        <div class="tracking-step-title">Order Confirmed</div>
+                        <div class="tracking-step-description">Your order is being processed</div>
+                    </div>
+                `;
+            }
+            
+            // Shipped
+            if (['SHIPPED', 'DELIVERED'].includes(status)) {
+                trackingHTML += `
+                    <div class="tracking-step completed">
+                        <div class="tracking-step-title">Shipped</div>
+                        <div class="tracking-step-date">${shippedDate ? formatDate(shippedDate) : formatDate(order.createdAt)}</div>
+                        <div class="tracking-step-description">
+                            ${courierName ? `Shipped via ${courierName}` : 'Your order has been shipped'}
+                            ${trackingNumber ? `<br>Tracking: ${trackingNumber}` : ''}
+                        </div>
+                    </div>
+                `;
+            } else {
+                trackingHTML += `
+                    <div class="tracking-step ${status === 'CONFIRMED' ? 'active' : ''}">
+                        <div class="tracking-step-title">Shipped</div>
+                        <div class="tracking-step-description">Your order will be shipped soon</div>
+                    </div>
+                `;
+            }
+            
+            // Delivered
+            if (status === 'DELIVERED') {
+                trackingHTML += `
+                    <div class="tracking-step completed">
+                        <div class="tracking-step-title">Delivered</div>
+                        <div class="tracking-step-date">${deliveredDate ? formatDate(deliveredDate) : 'Recently'}</div>
+                        <div class="tracking-step-description">Your order has been delivered successfully</div>
+                    </div>
+                `;
+            } else {
+                trackingHTML += `
+                    <div class="tracking-step ${status === 'SHIPPED' ? 'active' : ''}">
+                        <div class="tracking-step-title">Delivered</div>
+                        <div class="tracking-step-description">
+                            ${estimatedDelivery ? `Expected by ${formatDate(estimatedDelivery)}` : 'Estimated delivery in 3-5 business days'}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            trackingHTML += `
+                    </div>
+                    <div class="delivery-info">
+                        <h4>📍 Delivery Address</h4>
+                        <div class="delivery-details">
+                            ${order.shippingFullName}<br>
+                            ${order.shippingAddressLine1}<br>
+                            ${order.shippingAddressLine2 ? order.shippingAddressLine2 + '<br>' : ''}
+                            ${order.shippingCity}, ${order.shippingState} ${order.shippingPincode}<br>
+                            Phone: ${order.shippingPhoneNumber}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return trackingHTML;
         }
 
         function showNoOrders() {

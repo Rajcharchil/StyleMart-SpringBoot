@@ -34,9 +34,19 @@ body{font-family:var(--font-base);background:var(--clr-bg);color:var(--clr-dark)
   align-items: center;
   justify-content: center;
   min-height: 80vh;
-  background: url('https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
   position: relative;
   padding: 2rem;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
 
 .hero::after {
@@ -684,6 +694,10 @@ footer {
 
 <!-- ===== HERO ===== -->
 <section class="hero">
+  <video autoplay muted loop class="hero-video">
+    <source src="assest/shopping.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
   <div class="cta-tile" tabindex="0" onclick="window.location.href='/products-page'">
     🛍️ Shop Products
     <small>Browse our latest collection</small>
@@ -839,6 +853,8 @@ footer {
 
      <img src="assest/plussizemen.jpg" alt="Plus Size Men"  onclick="window.location.href='/men.html'" />
 
+     <img src="assest/perfume.webp" alt="perfume"/>
+
       </div>
    </div>
   </section>
@@ -931,6 +947,40 @@ footer {
           <p class="price">
             <span class="original-price">₹2599</span>
             <span class="discounted-price">₹1199</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="assest/watch.webp" alt="Headphones">
+          <div class="overlay">
+            <button class="add-to-cart-btn">Add to Cart</button>
+          </div>
+          <span class="offer-badge">10% OFF</span>
+        </div>
+        <div class="product-info">
+          <h4>watch for Kids</h4>
+          <p class="price">
+            <span class="original-price">₹1499</span>
+            <span class="discounted-price">₹899</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="assest/sunglass.webp" alt="sunglass">
+          <div class="overlay">
+            <button class="add-to-cart-btn">Add to Cart</button>
+          </div>
+          <span class="offer-badge">40% OFF</span>
+        </div>
+        <div class="product-info">
+          <h4>sunglass for Kids</h4>
+          <p class="price">
+            <span class="original-price">₹199</span>
+            <span class="discounted-price">₹99</span>
           </p>
         </div>
       </div>

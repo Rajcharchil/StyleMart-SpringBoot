@@ -113,6 +113,25 @@ class HeaderLoader {
 // Global instance
 window.headerLoader = new HeaderLoader();
 
+// After header is loaded, inject user info if available
+function injectUserInfoToProfile() {
+    // For demo: get from localStorage (replace with real auth in production)
+    const name = localStorage.getItem('userName');
+    const email = localStorage.getItem('userEmail');
+    const nameElem = document.getElementById('profileUserName');
+    const emailElem = document.getElementById('profileUserEmail');
+    const loginBtn = document.getElementById('profileLoginBtn');
+    if (name && email) {
+        if (nameElem) nameElem.textContent = name;
+        if (emailElem) emailElem.textContent = email;
+        if (loginBtn) loginBtn.style.display = 'none';
+    } else {
+        if (nameElem) nameElem.textContent = 'Welcome';
+        if (emailElem) emailElem.textContent = 'To access account and manage orders';
+        if (loginBtn) loginBtn.style.display = 'block';
+    }
+}
+
 // Auto-load header when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     // Check if header is already present
@@ -121,6 +140,9 @@ document.addEventListener('DOMContentLoaded', function() {
         window.headerLoader.loadHeader();
     }
 });
+
+document.addEventListener('headerLoaded', injectUserInfoToProfile);
+document.addEventListener('DOMContentLoaded', injectUserInfoToProfile);
 
 // Export for use in other scripts
 if (typeof module !== 'undefined' && module.exports) {
